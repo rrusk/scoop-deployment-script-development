@@ -1,0 +1,17 @@
+#!/bin/sh
+while true; do
+    
+    echo "NOTE: Start the rest relay server before executing this script"
+    echo 'It can be started with `~/bin/query-gateway-start`'
+    read -p "Continue?  Answer [y/n] " yn
+    case $yn in
+        [Yy]* ) break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+
+curl http://localhost:3000/records/destroy
+echo
+curl http://localhost:3000/records/relay
+echo

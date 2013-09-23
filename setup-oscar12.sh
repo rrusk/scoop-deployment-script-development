@@ -36,6 +36,9 @@ then
   echo "Failed to configure CATALINA_HOME in /etc/environment.  Exiting..."
   exit
 fi
+#
+echo "source /etc/environment" >> ~/.bashrc
+#
 sudo update-alternatives --config java
 sudo update-alternatives --config javac
 sudo update-alternatives --config javaws
