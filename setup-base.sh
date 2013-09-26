@@ -38,7 +38,7 @@ sudo apt-get --yes install libxslt-dev libxml2-dev
 #
 # other useful packages (Note: screen and script are installed
 # in Ubuntu server by default; if they are missing install them)
-sudo apt-get --yes install lynx-cur tshark screen script
+sudo apt-get --yes install lynx-cur tshark screen script autossh monit
 #
 cat >> ~/.bashrc <<'EOF'
 #
@@ -46,6 +46,20 @@ cat >> ~/.bashrc <<'EOF'
 shopt -s direxpand
 EOF
 #
+#
+sudo bash -c "cat >> /etc/network/interfaces" <<'EOF'
+
+## Template for adding static virtual interface
+## Uncomment the following lines and modify as
+## needed to create a static virtual interface
+#auto eth0:0
+#iface eth0:0 inet static
+#  address 192.168.4.205
+#  netmask 255.255.255.0
+##  gateway 192.168.4.1
+EOF
+#
+echo
 echo "Use 'sudo vi /etc/resolvconf/resolv.conf.d/head' to add specific nameservers to"
 echo "/etc/resolv.conf for DNS lookups.  For instance, add the line"
 echo "'nameserver 142.104.6.1' to use UVic's main name service."

@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 #echo "Starting relay service on port 3000"
-#$HOME/util/relay-service.rb >> $HOME/logs/rs.log 2>&1 &
+#$HOME/endpoint/query-gateway/util/relay-service.rb >> $HOME/logs/rs.log 2>&1 &
 #
 echo "Starting Query Gateway on port 3001"
 cd $HOME/endpoint/query-gateway
