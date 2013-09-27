@@ -30,14 +30,13 @@ EOF
 #
 fi
 #
-source /etc/environment
+grep -v PATH /etc/environment >> ~/.bashrc
+source ~/.bashrc
 if [ -z "$CATALINA_BASE" ]
 then
   echo "Failed to configure CATALINA_HOME in /etc/environment.  Exiting..."
   exit
 fi
-#
-echo "source /etc/environment" >> ~/.bashrc
 #
 sudo update-alternatives --config java
 sudo update-alternatives --config javac
@@ -64,7 +63,6 @@ git checkout scoop-deploy
 git pull
 #
 # build Oscar from source
-source /etc/environment
 export CATALINA_HOME
 mvn -Dmaven.test.skip=true verify
 sudo cp ./target/*.war $CATALINA_BASE/webapps/oscar12.war
@@ -93,7 +91,6 @@ export PASSWORD=$oscar_passwd
 ./createdatabase_bc.sh root $PASSWORD oscar_12_1
 #
 cd $HOME
-source /etc/environment
 if [ ! -f $CATALINA_HOME/oscar12.properties ]
 then
   if [ ! -f ./oscar-env-bc-subs.txt ]
