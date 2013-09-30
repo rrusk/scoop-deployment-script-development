@@ -11,9 +11,9 @@ then
 fi
 #
 # If gateway is running, stop it.
-if [ -f $HOME/endpoint/query-gateway/tmp/pids/query-gateway.pid ];
+if [ -f $HOME/endpoint/query-gateway/tmp/pids/server.pid ];
 then
-  kill `cat $HOME/endpoint/query-gateway/tmp/pids/query-gateway.pid`
-  rm $HOME/endpoint/query-gateway/tmp/pids/query-gateway.pid
+  kill `cat $HOME/endpoint/query-gateway/tmp/pids/server.pid`
+  rm $HOME/endpoint/query-gateway/tmp/pids/server.pid
 fi
 #

@@ -14,10 +14,10 @@ fi
 bundle exec $HOME/endpoint/query-gateway/script/delayed_job start
 #
 # If gateway isn't running, start it.
-if [ -f $HOME/endpoint/query-gateway/tmp/pids/query-gateway.pid ];
+if [ ! -f $HOME/endpoint/query-gateway/tmp/pids/server.pid ];
 then
   bundle exec rails server -p 3001 -d
-  /bin/ps -ef | grep "rails server -p 3001" | grep -v grep | awk '{print $2}' > tmp/pids/query-gateway.pid
+  /bin/ps -ef | grep "rails server -p 3001" | grep -v grep | awk '{print $2}' > tmp/pids/server.pid
 fi
 #
 #
