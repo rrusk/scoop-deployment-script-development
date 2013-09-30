@@ -9,3 +9,11 @@ then
     rm $HOME/endpoint/query-gateway/tmp/pids/delayed_job.pid
   fi
 fi
+#
+# If gateway is running, stop it.
+if [ -f $HOME/endpoint/query-gateway/tmp/pids/query-gateway.pid ];
+then
+  kill `cat $HOME/endpoint/query-gateway/tmp/pids/query-gateway.pid`
+  rm $HOME/endpoint/query-gateway/tmp/pids/query-gateway.pid
+fi
+#

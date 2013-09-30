@@ -8,4 +8,4 @@ fi
 bundle exec $HOME/hub/query-composer/script/delayed_job start
 
 bundle exec script/delayed_job start
-bundle exec rails server -p 3002 &
+bundle exec rails server -p 3002 -d
