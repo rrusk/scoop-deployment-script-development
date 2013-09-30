@@ -1,4 +1,11 @@
 #!/bin/bash
+if [ -z "$1" ]
+then
+  echo "Usage: setup-tunnels.sh gatewayID"
+  echo " * Note: The gatewayID must be a unique integer (e.g. 05).  If less than 10 prefix with a 0."
+  exit
+fi
+gatewayID=$1
 #
 echo
 if [ ! -d /home/autossh/.ssh ]
@@ -20,7 +27,7 @@ then
 fi
 sudo bash -c "cat  > /usr/local/reverse_ssh/bin/start_admin_tunnel.sh" <<'EOF1'
 #!/bin/bash
-REMOTE_ACCESS_PORT=30309
+REMOTE_ACCESS_PORT=`expr 30300 + $gatewayID`
 LOCAL_PORT_TO_FORWARD=22
 export AUTOSSH_PIDFILE=/usr/local/reverse_ssh/autossh_admin.pid
 /usr/bin/autossh -M0 -p22 -N -R ${REMOTE_ACCESS_PORT}:localhost:${LOCAL_PORT_TO_FORWARD} autossh@scoophub.cs.uvic.ca -o ServerAliveInterval=15 -o ServerAliveCountMax=3 -o Protocol=2 -o ExitOnForwardFailure=yes &
@@ -29,7 +36,7 @@ EOF1
 #
 sudo bash -c "cat  > /usr/local/reverse_ssh/bin/start_endpoint_tunnel.sh" <<'EOF2'
 #!/bin/bash
-REMOTE_ACCESS_PORT=3201
+REMOTE_ACCESS_PORT=`expr 10300 + $gatewayID`
 LOCAL_PORT_TO_FORWARD=3001
 export AUTOSSH_PIDFILE=/usr/local/reverse_ssh/autossh_endpoint.pid
 /usr/bin/autossh -M0 -p22 -N -R ${REMOTE_ACCESS_PORT}:localhost:${LOCAL_PORT_TO_FORWARD} autossh@scoophub.cs.uvic.ca -o ServerAliveInterval=15 -o ServerAliveCountMax=3 -o Protocol=2 -o ExitOnForwardFailure=yes &
@@ -71,7 +78,7 @@ sudo /etc/init.d/monit restart
 #
 echo
 echo "Access endpoint from account on hub as follows:"
-echo "ssh -l scoopadmin localhost -p 30309"
+echo "ssh -l scoopadmin localhost -p 303[0n] where 0n is the gatewayID"
 echo "Note that the password request is for the scoopadmin account"
 echo "on the endpoint which can be different from the password of"
 echo "the scoopadmin acount on the hub."
