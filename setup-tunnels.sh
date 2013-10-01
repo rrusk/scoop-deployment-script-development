@@ -27,22 +27,25 @@ then
 fi
 sudo bash -c "cat  > /usr/local/reverse_ssh/bin/start_admin_tunnel.sh" <<'EOF1'
 #!/bin/bash
-REMOTE_ACCESS_PORT=`expr 30300 + $gatewayID`
+REMOTE_ACCESS_PORT=30308
 LOCAL_PORT_TO_FORWARD=22
 export AUTOSSH_PIDFILE=/usr/local/reverse_ssh/autossh_admin.pid
 /usr/bin/autossh -M0 -p22 -N -R ${REMOTE_ACCESS_PORT}:localhost:${LOCAL_PORT_TO_FORWARD} autossh@scoophub.cs.uvic.ca -o ServerAliveInterval=15 -o ServerAliveCountMax=3 -o Protocol=2 -o ExitOnForwardFailure=yes &
 #
 EOF1
 #
+sudo bash -c "sed -i -e s/REMOTE_ACCESS_PORT=30308/REMOTE_ACCESS_PORT=`expr 30300 + $gatewayID`/ /usr/local/reverse_ssh/bin/start_admin_tunnel.sh"
+
 sudo bash -c "cat  > /usr/local/reverse_ssh/bin/start_endpoint_tunnel.sh" <<'EOF2'
 #!/bin/bash
-REMOTE_ACCESS_PORT=`expr 10300 + $gatewayID`
+REMOTE_ACCESS_PORT=13001
 LOCAL_PORT_TO_FORWARD=3001
 export AUTOSSH_PIDFILE=/usr/local/reverse_ssh/autossh_endpoint.pid
 /usr/bin/autossh -M0 -p22 -N -R ${REMOTE_ACCESS_PORT}:localhost:${LOCAL_PORT_TO_FORWARD} autossh@scoophub.cs.uvic.ca -o ServerAliveInterval=15 -o ServerAliveCountMax=3 -o Protocol=2 -o ExitOnForwardFailure=yes &
 #
 EOF2
 #
+sudo bash -c "sed -i -e s/REMOTE_ACCESS_PORT=13001/REMOTE_ACCESS_PORT=`expr 10300 + $gatewayID`/ /usr/local/reverse_ssh/bin/start_endpoint_tunnel.sh"
 #
 sudo bash -c "cat  > /usr/local/reverse_ssh/bin/stop_admin_tunnel.sh" <<'EOF3'
 #!/bin/sh
