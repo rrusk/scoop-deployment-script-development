@@ -3,10 +3,12 @@ mongodb can not be started with the upstart scripts.
 
 Modify /etc/init/mongodb.conf by commenting out "start on runlevel ...".
 However, leave the "stop on runlevel ..." line so that the database is shut
-down gracefully during system shutdown.
+down gracefully during system shutdown, reducing the likelihood of database
+corruption.
 
-Monit can be used to monitor the query-gateway software but monitoring
-should be started manually using:
+Monit can be used to monitor the query-gateway software, which depends
+on mongodb, but monitoring must be started manually after the mongodb
+service starts with:
 
   sudo monit start query-gateway
 
