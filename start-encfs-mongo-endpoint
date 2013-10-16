@@ -1,0 +1,17 @@
+#!/bin/bash
+# It is assumed that the mongodb has been moved to an encrypted filesystem.
+# To do that, first, stop monit, gateway software and mongodb:
+#   $ sudo /etc/init.d/monit stop
+#   $ sudo /home/scoopadmin/bin/stop-endpoint.sh 
+#   $ sudo service mongodb stop
+# Next move mongodb to encrypted filesystem
+#   $ sudo mv /var/lib/mongodb/ /var/lib/mongodb-orig
+#   $ sudo encfs --public /var/lib/mongodb.encfs /var/lib/mongodb
+#    (Answer questions and set passphrase)
+#   $ sudo rsync -av /var/lib/mongodb-orig/ /var/lib/mongodb/
+# The files appear unencrypted in /var/lib/mongodb after a passphrase has
+# been entered.  Otherwhise, /var/lib/mongodb is empty.
+# The encrypted filesystem can be unmounted using:
+#   $ fusermount -u /var/lib/mongodb
+#
+sudo /usr/bin/encfs --public /var/lib/mongodb.encfs /var/lib/mongodb && sudo initctl start mongodb && sudo monit start query-gateway
