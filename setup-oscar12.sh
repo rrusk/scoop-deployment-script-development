@@ -1,10 +1,7 @@
 #!/bin/bash
-if [ -z "$1" ]
-then
-  echo "Usage: setup-oscar.sh oscar_password"
-  exit
-fi
-oscar_passwd=$1
+#
+echo -n "Enter Oscar password: "
+read oscar_passwd
 echo "Create Oscar database with password $oscar_passwd"
 #
 
